@@ -8,6 +8,8 @@ use \App\Http\Controllers\Controller;
 use App\Http\Requests\StoreNews;
 use App\NewsItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class NewsController extends Controller
 {
@@ -46,13 +48,25 @@ class NewsController extends Controller
         $category_id = $attributes['category_id'];
         unset($attributes['category_id']);
 
-        $newsItem = NewsItem::create($attributes);
+        try{
+            DB::transaction(function() use ($attributes, $category_id)
+            {
+                $newsItem = NewsItem::create($attributes);
 
-        $feedEntity = FeedEntity::create([
-            'category_id' => $category_id,
-            'feed_entitiable_id' => $newsItem->id,
-            'feed_entitiable_type' => NewsItem::class,
-        ]);
+                $feedEntity = FeedEntity::create(
+                [
+                    'category_id' => $category_id,
+                    'feed_entitiable_id' => $newsItem->id,
+                    'feed_entitiable_type' => NewsItem::class,
+                ]);
+            });
+        }
+        catch (\Exception $e)
+        {
+            // Writing into logs
+            Log::error('news.store: DB transaction failed: ' . $e->getMessage());
+            return redirect(route('news.create'))->withErrors('db_error', 'Something went wrong, try again later!');
+        }
 
         return redirect(route('news.index'));
     }
@@ -74,9 +88,12 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(StoreNews $request, $id)
     {
-        //
+        // Validate
+        $attributes = $request->validated();
+
+
     }
 
     /**
