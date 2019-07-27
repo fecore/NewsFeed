@@ -42,13 +42,15 @@ class NewsController extends Controller
     public function store(StoreNews $request)
     {
         // Validate
+        // Validating from FormRequest class "StoreNews"
         $attributes = $request->validated();
 
-        // Unset category_id for newsItem
+        // Unset category_id for NewsItem model
         $category_id = $attributes['category_id'];
         unset($attributes['category_id']);
 
         try{
+            // Start transaction
             DB::transaction(function() use ($attributes, $category_id)
             {
                 $newsItem = NewsItem::create($attributes);
@@ -63,59 +65,68 @@ class NewsController extends Controller
         }
         catch (\Exception $e)
         {
-            // Writing into logs
-            Log::error('news.store: DB transaction failed: ' . $e->getMessage());
-            return redirect(route('news.create'))->withErrors('db_error', 'Something went wrong, try again later!');
+            // If transaction fails
+            // Then write it to a log file
+            // And redirect back with a session error
+            return $this->LogTransactionFailed(route('news.create'), $e);
         }
 
         return redirect(route('news.index'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(NewsItem $newsItem)
     {
-        //
+        $title = $newsItem->title;
+        $content = $newsItem->content;
+
+        return view('admin.news.show', compact('title', 'content'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(StoreNews $request, $id)
+    public function edit(Request $request, $id)
+    {
+
+    }
+
+    public function update(StoreNews $request, NewsItem $newsItem)
     {
         // Validate
+        // Validating from FormRequest class "StoreNews"
         $attributes = $request->validated();
 
+        // Unset category_id for NewsItem model
+        $category_id = $attributes['category_id'];
+        unset($attributes['category_id']);
 
+        try{
+            // Start transaction
+            DB::transaction(function() use ($attributes, $category_id, $newsItem)
+            {
+                // Updating NewsItem model
+                $newsItem->update($attributes);
+
+                // Then update FeedEntity
+                $newsItem->feedEntity->update(['category_id' => $category_id]);
+            });
+        }
+        catch (\Exception $e)
+        {
+            // If transaction fails
+            // Then write it to a log file
+            // And redirect back with a session error
+            return $this->LogTransactionFailed(route('news.update'), $e);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //
     }
+
+    public function LogTransactionFailed($route, $e)
+    {
+        // Writing into logs
+        Log::error($route . ': DB transaction failed: ' . $e->getMessage());
+        return redirect($route)->withErrors('db_error', 'Something went wrong, try again later!');
+    }
+
 }

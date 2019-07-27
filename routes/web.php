@@ -30,9 +30,11 @@ Route::group
         'middleware' => 'auth',
     ]
     , function()
-{
-    Route::resource('/news', 'NewsController');
-}
+    {
+        Route::resource('/news', 'NewsController', ['parameters' => [
+            'news' => 'newsItem'
+        ]]);
+    }
 );
 
 Auth::routes();
