@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\FeedEntity;
 use \App\Http\Controllers\Controller;
 
+use App\Http\Requests\StoreNews;
+use App\NewsItem;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -11,7 +14,7 @@ class NewsController extends Controller
 
     public function __construct()
     {
-//        $this->middleware('auth');
+        $this->middleware('auth');
     }
 
     /**
@@ -34,15 +37,24 @@ class NewsController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(StoreNews $request)
     {
-        
+        // Validate
+        $attributes = $request->validated();
+
+        // Unset category_id for newsItem
+        $category_id = $attributes['category_id'];
+        unset($attributes['category_id']);
+
+        $newsItem = NewsItem::create($attributes);
+
+        $feedEntity = FeedEntity::create([
+            'category_id' => $category_id,
+            'feed_entitiable_id' => $newsItem->id,
+            'feed_entitiable_type' => NewsItem::class,
+        ]);
+
+        return redirect(route('news.index'));
     }
 
     /**

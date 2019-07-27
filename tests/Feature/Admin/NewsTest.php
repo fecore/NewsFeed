@@ -5,29 +5,34 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class IndexTest extends TestCase
+class NewsTest extends TestCase
 {
     use RefreshDatabase;
-
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
 
     /** @test */
     public function only_auth_user_can_manage_news()
     {
-        $this->actingAs(factory('App\User')->create());
+        // Add categories
+        $this->fillWithCategories();
 
+        // Auth user
+        $this->actingAs(factory('App\User')->create());
+        $this->withoutExceptionHandling();
+
+        // Can visit
         $this->get(route('news.index'))->assertStatus(200);
         $this->get(route('news.create'))->assertStatus(200);
-    }
 
-    /** @test */
-    public function guests_cannot_manage_news()
-    {
-        $this->get(route('news.index'))->assertRedirect(route('login'));
-        $this->get(route('news.create'))->assertRedirect(route('login'));
+        // Can create
+        $attributes = [
+            'title' => 'test',
+            'content' => 'test',
+            'category_id' => 1,
+        ];
+
+        $this->post(route('news.store'), $attributes)->assertRedirect(route('news.index'));
+
+        unset($attributes['category_id']);
+        $this->assertDatabaseHas('news_items', $attributes);
     }
 }
