@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Category;
 use App\Events\ViewNews;
 use App\FeedEntity;
 use \App\Http\Controllers\Controller;
