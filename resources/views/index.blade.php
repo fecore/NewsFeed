@@ -1,7 +1,6 @@
 @extends('layouts.master')
 
 @section('content')
-
         <div style="background-color: #0c5460; color: #fff;" class="card card-body mb-4">
             <div class="card-body">
                 <h1 class="mt-0">Главная страница</h1>

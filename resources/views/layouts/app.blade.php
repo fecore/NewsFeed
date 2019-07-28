@@ -76,6 +76,8 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+        APP_ENV: {{ config('app.env') }}
     </div>
 </body>
 </html>
