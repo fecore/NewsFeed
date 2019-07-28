@@ -49,7 +49,7 @@ class DaySummaryEvent
         $until = $nowInDays + ($this->publish_time + 24) * 60 * 60;
 
         // From this time
-        $from = $until - 24 * 60 * 60;
+        $from = $until;
 
         return array(
             'from' => $from,

@@ -37,7 +37,7 @@ class GenerateWeather
             // If there is one
 
             // Select the last one
-            $latestWeatherForecast = WeatherForecast::latest('created_at')->first();
+            $latestWeatherForecast = FeedEntity::where('feed_entitiable_type', 'App\WeatherForecast')->latest()->first()->feedEntitiable;
 
             $feedEntityCreatedDateTime = $latestWeatherForecast->feedEntity->created_at;
 
@@ -61,12 +61,8 @@ class GenerateWeather
 
                 // Write to database
 
-                $this->insertWeatherForecast($dateTimeForWeatherToday);
-                
-
+                $this->insertWeatherForecast($timeStampSql);
             }
-
-
         }
         else
         {
@@ -79,20 +75,27 @@ class GenerateWeather
         // Start transaction
         DB::transaction(function() use ($dateTimeForWeatherToday)
         {
+
+            $categoryModel = new Category;
+            $weatherForecastModel = new WeatherForecast;
+
             // And related FeedEntity
             // But first load category id needed for weatherforecast
-            $category = Category::where('type', 'weather_forecast')->first();
+            $category = $categoryModel->where('type', 'weather_forecast')->first();
 
             // If category not found throw exception
             if (!$category) {
-                throw new ErrorException('No type=weather_forecast in categories table');
+                throw new ErrorException('NO CATEGORIES FOUND!!, create category with ´type´ = \'weather_forecast\'');
             }
 
             // So let's create for today
             // Store weather forecast
-            $weatherForecast = WeatherForecast::create([
+            $weatherForecast = $weatherForecastModel->create([
                 'title' => 'Прогноз погоды',
-                'content' => "Утро: +15, День: +12, вечер: +5 <br> ветер: 2м/с.",
+                'content' => "Утро: +15, День: +12, вечер: +5 ветер: 2м/с.",
+
+                // So you can sort it easily
+                'created_at' => $dateTimeForWeatherToday,
             ]);
 
 

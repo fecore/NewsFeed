@@ -16,6 +16,6 @@ class DaySummary extends Model
 
     public function newsItems()
     {
-        return $this->hasMany('App\NewsItem');
+        return $this->hasMany('App\NewsItem', 'day_summaries_id');
     }
 }

@@ -42,7 +42,10 @@
                                             <th>{{ $item->id }}</th>
                                             <td>{{ $item->feedEntitiable->title }}</td>
                                             <td>{{ $item->category->title }}</td>
-                                            <td><span class="badge badge-success">Главная</span>
+                                            <td>
+                                                @if ($item->feedEntitiable->main_news == 1)
+                                                    <span class="badge badge-success">Главная</span>
+                                                @endif
 
                                             </td>
                                             <td>{{ $item->created_at }}</td>

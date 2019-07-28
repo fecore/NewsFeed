@@ -11,8 +11,11 @@
 |
 */
 
-Route::get('/', 'IndexController@index');
+use App\Category;
 
+Route::get('/',                     'IndexController@index')->name('index');
+Route::get('/category/{category}',  'IndexController@category')->name('category');
+Route::get('/article/{feedEntity}', 'IndexController@show')->name ('article');
 
 
 // Admin panel
