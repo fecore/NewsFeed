@@ -78,8 +78,9 @@ class NewsController extends Controller
     {
         $title = $newsItem->title;
         $content = $newsItem->content;
+        $category = $newsItem->feedEntity->category->title;
 
-        return view('admin.news.show', compact('title', 'content'));
+        return view('admin.news.show', compact('title', 'content', 'category'));
     }
 
     public function edit(Request $request, $id)
@@ -119,7 +120,7 @@ class NewsController extends Controller
 
     public function destroy($id)
     {
-        //
+
     }
 
     public function LogTransactionFailed($route, $e)

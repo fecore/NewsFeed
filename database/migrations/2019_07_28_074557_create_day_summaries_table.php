@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateNewsItemsTable extends Migration
+class CreateDaySummariesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateNewsItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('news_items', function (Blueprint $table) {
+        Schema::create('day_summaries', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title');
-            $table->text('content')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateNewsItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('news_items');
+        Schema::dropIfExists('day_summaries');
     }
 }

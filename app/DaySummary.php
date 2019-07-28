@@ -4,18 +4,18 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class NewsItem extends Model
+class DaySummary extends Model
 {
-    protected  $guarded = [];
     //
+    protected $guarded = [];
 
     public function feedEntity()
     {
         return $this->morphOne(FeedEntity::class, 'feed_entitiable');
     }
 
-    public function daySummary()
+    public function newsItems()
     {
-        return $this->belongsTo('App\DaySummary', 'day_summaries_id');
+        return $this->hasMany('App\NewsItem');
     }
 }

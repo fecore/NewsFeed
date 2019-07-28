@@ -10,5 +10,6 @@ $factory->define(NewsItem::class, function (Faker $faker) {
         //
         'title' => $faker->sentence(1),
         'content' => $faker->text(500),
+        'day_summaries_id' => factory('App\DaySummary')->create(),
     ];
 });

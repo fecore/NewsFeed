@@ -11,13 +11,7 @@
 |
 */
 
-//Route::get('/', 'IndexController@index');
-Route::get('/', function () {
-    return 2;
-});
-
-// News resource
-//Route::resource('');
+Route::get('/', 'IndexController@index');
 
 
 
@@ -31,6 +25,7 @@ Route::group
     ]
     , function()
     {
+        // News resource
         Route::resource('/news', 'NewsController', ['parameters' => [
             'news' => 'newsItem'
         ]]);

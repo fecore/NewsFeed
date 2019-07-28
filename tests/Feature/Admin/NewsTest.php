@@ -43,7 +43,7 @@ class NewsTest extends TestCase
     {
         // Auth user
         $this->actingAs(factory('App\User')->create());
-        $this->withoutExceptionHandling();
+//        $this->withoutExceptionHandling();
         // Insert categories
         $this->fillWithCategories();
 
@@ -71,6 +71,22 @@ class NewsTest extends TestCase
         // and in feed_entities table:
         $this->assertDatabaseHas('feed_entities', $feedEntityAttributesSearch);
     }
+
+    /** @test */
+    public function only_auth_user_can_edit_news () {
+        // Insert categories
+        $this->fillWithCategories();
+
+        // Auth user
+        $this->actingAs(factory('App\User')->create());
+//        $this->withoutExceptionHandling();
+
+        // Create new FeedEntity
+        // with NewsItem and Category related
+        $feedEntity = factory('App\FeedEntity')->create();
+
+        $this->get(route('news.edit', $feedEntity->feedEntitiable))->assertStatus(200);
+    }
     
     /** @test */
     public function only_auth_user_can_view_news()
@@ -80,7 +96,7 @@ class NewsTest extends TestCase
 
         // Auth user
         $this->actingAs(factory('App\User')->create());
-        $this->withoutExceptionHandling();
+//        $this->withoutExceptionHandling();
 
         // Create new FeedEntity
         // with NewsItem and Category related

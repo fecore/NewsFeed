@@ -14,6 +14,8 @@ class IndexController extends Controller
      */
     public function index()
     {
-//        return 5;
+        // Generate DailySummary
+        // Every day at 20:00
+
     }
 }
