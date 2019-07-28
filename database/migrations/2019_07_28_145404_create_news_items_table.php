@@ -18,7 +18,9 @@ class CreateNewsItemsTable extends Migration
             $table->string('title');
             $table->text('content')->nullable();
 
-            $table->unsignedBigInteger('day_summaries_id')/*->nullable()*/;
+            $table->boolean('main_news')->default(0);
+
+            $table->unsignedBigInteger('day_summaries_id')->nullable();
             $table->foreign('day_summaries_id')->references('id')->on('day_summaries');
 
             $table->timestamps();

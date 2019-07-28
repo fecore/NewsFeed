@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ViewNews;
 use Illuminate\Http\Request;
 
 class IndexController extends Controller
@@ -14,8 +15,10 @@ class IndexController extends Controller
      */
     public function index()
     {
-        // Generate DailySummary
-        // Every day at 20:00
 
+        // Fire off event for generating weather
+        event(new ViewNews());
+
+        return view('layouts.master');
     }
 }

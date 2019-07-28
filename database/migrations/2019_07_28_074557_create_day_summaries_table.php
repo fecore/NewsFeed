@@ -16,6 +16,7 @@ class CreateDaySummariesTable extends Migration
         Schema::create('day_summaries', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title');
+            $table->dateTime('publish_at');
             $table->timestamps();
         });
     }

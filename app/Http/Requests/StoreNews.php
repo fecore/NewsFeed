@@ -26,6 +26,7 @@ class StoreNews extends FormRequest
                 function ($attribute, $value, $fail) {
 
                     // For safety
+                    // If category doesn't exist
                     $category_id = intval($value);
 
                     $count = \App\Category::where(

@@ -19,7 +19,7 @@ class NewsTest extends TestCase
 
         // Auth user
         $this->actingAs(factory('App\User')->create());
-//        $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
 
         // Can visit
         $this->get(route('news.index'))->assertStatus(200);
@@ -32,7 +32,7 @@ class NewsTest extends TestCase
             'category_id' => 1,
         ];
 
-        $this->post(route('news.store'), $attributes)->assertRedirect(route('news.index'));
+        $this->post(route('news.store'), $attributes)->assertRedirect(route('dashboard'));
 
         unset($attributes['category_id']);
         $this->assertDatabaseHas('news_items', $attributes);
@@ -43,7 +43,7 @@ class NewsTest extends TestCase
     {
         // Auth user
         $this->actingAs(factory('App\User')->create());
-//        $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
         // Insert categories
         $this->fillWithCategories();
 
@@ -58,8 +58,7 @@ class NewsTest extends TestCase
         ];
 
         // Update request
-        $this->put(route('news.update', $feedEntity->feedEntitiable), $sendAttributes)
-            ->assertStatus(200);
+        $this->put(route('news.update', $feedEntity->feedEntitiable), $sendAttributes)->assertStatus(302);
 
         $newsItemsAttributesSearch = $sendAttributes;
         $feedEntityAttributesSearch['category_id'] = $newsItemsAttributesSearch['category_id'];

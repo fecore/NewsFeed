@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\DaySummaryEvent;
+use App\Listeners\GenerateDaySummaryListener;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -17,6 +19,12 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        DaySummaryEvent::class => [
+//            GenerateDaySummaryListener::class,
+        ],
+        \App\Events\ViewNews::class => [
+            \App\Listeners\GenerateWeather::class,
         ],
     ];
 

@@ -25,6 +25,8 @@ Route::group
     ]
     , function()
     {
+
+        Route::get('/', 'DashboardController@index')->name('dashboard');
         // News resource
         Route::resource('/news', 'NewsController', ['parameters' => [
             'news' => 'newsItem'
@@ -33,7 +35,3 @@ Route::group
 );
 
 Auth::routes();
-
-
-
-Route::get('/home', 'HomeController@index')->name('home');

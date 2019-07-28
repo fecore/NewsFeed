@@ -31,20 +31,19 @@ class CategoriesSeeder extends Seeder
             ],
             [
                 'title' => 'Погода',
-                'appears_in_form' => 0
+                'appears_in_form' => 0,
+                'type' => 'weather_forecast',
             ],
             [
                 'title' => 'Итоги дня',
-                'appears_in_form' => 0
+                'appears_in_form' => 0,
+                'type' => 'day_summary',
             ]
         ];
 
         foreach ($categories as $category)
         {
-            factory('App\Category')->create([
-                'title' => $category['title'],
-                'appears_in_form' => $category['appears_in_form'],
-            ]);
+            factory('App\Category')->create($category);
         }
     }
 }

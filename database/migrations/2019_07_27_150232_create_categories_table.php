@@ -17,6 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->boolean('appears_in_form')->default(true);
+            $table->enum('type', ['day_summary', 'weather_forecast'])->nullable();
             $table->timestamps();
         });
     }
