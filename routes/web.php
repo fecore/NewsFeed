@@ -18,6 +18,16 @@ Route::get('/category/{category}',  'IndexController@category')->name('category'
 Route::get('/article/{feedEntity}', 'IndexController@show')->name ('article');
 
 
+Route::get('/config-clear', function() {
+    $exitCode = Artisan::call('cache:clear');
+    // return what you want
+});
+
+Route::get('/config-cache', function() {
+    $exitCode = Artisan::call('cache:clear');
+    // return what you want
+});
+
 // Admin panel
 Route::group
 (
