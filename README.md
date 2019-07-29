@@ -56,5 +56,7 @@ https://drive.google.com/file/d/1ASxgmIOXnrsu9q-05LX3DOAQqUMJHSH2/view?usp=shari
 
 Валитации форм хранятся в: <code>app/Http/Requests/</code>.
 
+Приложение немного покрыто тестами, но не полностью, из-за нехватки времени.
+
 Комментарии писал на английском.
 
