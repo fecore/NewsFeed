@@ -60,3 +60,5 @@ https://drive.google.com/file/d/1ASxgmIOXnrsu9q-05LX3DOAQqUMJHSH2/view?usp=shari
 
 Комментарии писал на английском.
 
+Код получился местами громоздкий, поскольку не было достаточно времени на рефакторинг.
+
