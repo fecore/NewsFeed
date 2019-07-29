@@ -6,7 +6,7 @@
 
 Установите зависимости:
 
-<code>$ composer i</code>
+<code>$ php composer.phar install</code>
 
 <code>$ npm i</code>
 
